@@ -1,36 +1,187 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Langspeed Bengkel - Sistem Manajemen Servis dan Suku Cadang
 
-## Getting Started
+Aplikasi web modern untuk mengelola servis motor dan penjualan suku cadang dengan fitur laporan keuangan terintegrasi.
 
-First, run the development server:
+## Fitur Utama
 
-```bash
+✨ **Dashboard Interaktif**
+- Ringkasan metrik bisnis real-time
+- Akses cepat ke fitur utama
+- Riwayat pesanan terbaru
+
+📦 **Manajemen Produk**
+- Kelola inventori suku cadang
+- Tracking harga beli dan jual
+- Perhitungan margin keuntungan otomatis
+- Monitoring stok real-time
+
+🔧 **Manajemen Pesanan**
+- Buat pesanan servis dengan mudah
+- Tambahkan produk dan jasa
+- Tracking status pesanan
+- Otomatis update stok
+
+💰 **Laporan Keuangan**
+- Analisis laba dan rugi komprehensif
+- Filter berdasarkan periode tanggal
+- Visualisasi data dengan grafik
+- Perhitungan margin keuntungan
+- Export laporan
+
+🔐 **Keamanan**
+- Autentikasi email/password
+- Row Level Security (RLS)
+- Enkripsi data
+- Backup otomatis
+
+## Tech Stack
+
+- **Frontend**: Next.js 16, React 19, TypeScript
+- **Backend**: Next.js API Routes, Supabase
+- **Database**: PostgreSQL (Supabase)
+- **Authentication**: Supabase Auth
+- **Styling**: Tailwind CSS
+- **Charts**: Recharts
+- **Data Fetching**: SWR
+
+## Quick Start
+
+### Prerequisites
+- Node.js 18+
+- Supabase account
+
+### Installation
+
+1. Clone repository
+\`\`\`bash
+git clone https://github.com/yourusername/langspeed-bengkel.git
+cd langspeed-bengkel
+\`\`\`
+
+2. Install dependencies
+\`\`\`bash
+npm install
+\`\`\`
+
+3. Set up environment variables
+\`\`\`bash
+cp .env.example .env.local
+# Edit .env.local with your Supabase credentials
+\`\`\`
+
+4. Run development server
+\`\`\`bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+\`\`\`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+For detailed setup instructions, see [SETUP_INSTRUCTIONS.md](./SETUP_INSTRUCTIONS.md)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+\`\`\`
+langspeed-bengkel/
+├── app/
+│   ├── api/                    # API routes
+│   │   ├── products/
+│   │   ├── services/
+│   │   ├── orders/
+│   │   └── reports/
+│   ├── auth/                   # Authentication pages
+│   ├── dashboard/              # Dashboard pages
+│   └── layout.tsx
+├── lib/
+│   ├── supabase/              # Supabase clients
+│   └── hooks/                 # Custom React hooks
+├── components/                # Reusable components
+├── scripts/                   # Database migration scripts
+└── public/                    # Static assets
+\`\`\`
 
-To learn more about Next.js, take a look at the following resources:
+## Database Schema
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Products
+- `id` - UUID primary key
+- `product_id` - Unique identifier
+- `name` - Product name
+- `price` - Selling price
+- `purchase_price` - Cost price (NEW)
+- `stock` - Current inventory
+- `created_at`, `updated_at` - Timestamps
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Orders
+- `id` - UUID primary key
+- `order_number` - Unique order number
+- `customer_name` - Customer name
+- `customer_phone` - Contact number
+- `vehicle_type` - Vehicle type
+- `plate_number` - License plate
+- `complaint` - Service complaint
+- `total_amount` - Order total
+- `status` - Order status (Diproses/Selesai)
+- `created_at`, `updated_at` - Timestamps
 
-## Deploy on Vercel
+### Order Items
+- `id` - UUID primary key
+- `order_id` - Foreign key to orders
+- `item_id` - Product/service ID
+- `item_name` - Item name
+- `item_type` - Type (product/service)
+- `quantity` - Quantity
+- `price` - Selling price
+- `purchase_price` - Cost price (NEW)
+- `subtotal` - Line total
+- `created_at` - Timestamp
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## API Documentation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [API_DOCS.md](./API_DOCS.md) for detailed endpoint documentation.
+
+## Profit/Loss Calculation
+
+The system calculates financial metrics as follows:
+
+\`\`\`
+Total Revenue = Σ(selling_price × quantity)
+Total Cost = Σ(purchase_price × quantity)
+Total Profit = Total Revenue - Total Cost
+Profit Margin = (Total Profit / Total Revenue) × 100%
+\`\`\`
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Support
+
+For support, email support@langspeed.com or open an issue on GitHub.
+
+## Changelog
+
+### v1.0.0 (Current)
+- ✅ Migrated from Convex to Supabase
+- ✅ Added purchase price tracking
+- ✅ Implemented financial reporting system
+- ✅ Created comprehensive dashboard
+- ✅ Added profit/loss calculations
+
+## Roadmap
+
+- [ ] Mobile app (React Native)
+- [ ] SMS notifications
+- [ ] Email reports
+- [ ] Multi-user roles
+- [ ] Advanced analytics
+- [ ] Inventory alerts
+- [ ] Customer management
+- [ ] Payment integration
+\`\`\`
